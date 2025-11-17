@@ -29,4 +29,7 @@
     <color name="surface_dark">#1E1E1E</color>
     <color name="text_primary_dark">#FFFFFF</color>
     <color name="text_secondary_dark">#B0B0B0</color>
+
+    <!-- Launcher icon -->
+    <color name="ic_launcher_background">#2196F3</color>
 </resources>
