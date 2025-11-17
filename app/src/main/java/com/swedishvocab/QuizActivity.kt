@@ -83,8 +83,8 @@ class QuizActivity : AppCompatActivity() {
             // Enable pronunciation button when TTS is ready
             pronunciationButton.post {
                 pronunciationButton.isEnabled = true
-                pronunciationButton.invalidate()  // Force UI refresh
-                pronunciationButton.requestLayout()  // Ensure layout updates
+                pronunciationButton.refreshDrawableState()  // Force icon tint to update
+                pronunciationButton.invalidate()
 
                 // Only auto-play if we're still on the first question
                 if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
