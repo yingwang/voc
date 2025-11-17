@@ -77,9 +77,12 @@ class QuizActivity : AppCompatActivity() {
 
         // Set up listener to auto-play first question when TTS is ready
         audioPlayer.setOnInitializedListener {
-            // Only auto-play if we're still on the first question
-            if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
-                runOnUiThread {
+            // Enable pronunciation button when TTS is ready
+            runOnUiThread {
+                pronunciationButton.isEnabled = true
+
+                // Only auto-play if we're still on the first question
+                if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
                     Handler(Looper.getMainLooper()).postDelayed({
                         if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
                             playPronunciation()
@@ -210,7 +213,7 @@ class QuizActivity : AppCompatActivity() {
             } else {
                 displayCurrentQuestion()
             }
-        }, 1500)
+        }, 1000)
     }
 
     private fun showFeedback(isCorrect: Boolean, question: Question, selectedAnswer: String) {
