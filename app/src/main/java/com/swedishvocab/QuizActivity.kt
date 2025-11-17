@@ -81,8 +81,10 @@ class QuizActivity : AppCompatActivity() {
         // Set up listener to auto-play first question when TTS is ready
         audioPlayer.setOnInitializedListener {
             // Enable pronunciation button when TTS is ready
-            runOnUiThread {
+            pronunciationButton.post {
                 pronunciationButton.isEnabled = true
+                pronunciationButton.invalidate()  // Force UI refresh
+                pronunciationButton.requestLayout()  // Ensure layout updates
 
                 // Only auto-play if we're still on the first question
                 if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
