@@ -17,12 +17,23 @@ class QuizManager(context: Context) {
             throw IllegalStateException("Dictionary must have at least 4 words")
         }
 
-        // Filter words based on difficulty (take first N words which are sorted by frequency)
+        // Filter words based on difficulty level using the difficulty field
         val filteredWords = when (difficulty) {
-            DifficultyLevel.BEGINNER -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
-            DifficultyLevel.INTERMEDIATE -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
-            DifficultyLevel.ADVANCED -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
+            DifficultyLevel.BEGINNER -> allWords.filter {
+                it.difficulty == "beginner"
+            }
+            DifficultyLevel.INTERMEDIATE -> allWords.filter {
+                it.difficulty in listOf("beginner", "intermediate")
+            }
+            DifficultyLevel.ADVANCED -> allWords.filter {
+                it.difficulty in listOf("beginner", "intermediate", "advanced")
+            }
             DifficultyLevel.ALL -> allWords
+        }
+
+        // Ensure we have enough words for the quiz
+        if (filteredWords.size < 4) {
+            throw IllegalStateException("Not enough words available for selected difficulty level")
         }
 
         val selectedWords = filteredWords.shuffled().take(questionCount)

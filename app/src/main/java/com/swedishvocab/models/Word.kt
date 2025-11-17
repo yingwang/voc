@@ -5,7 +5,9 @@ data class Word(
     val english: String,
     val category: String,
     val audioUrl: String? = null,
-    val phonetic: String? = null
+    val phonetic: String? = null,
+    val difficulty: String? = null,
+    val frequencyRank: Int? = null
 )
 
 data class Dictionary(
