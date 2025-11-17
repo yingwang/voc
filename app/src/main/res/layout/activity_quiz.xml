@@ -103,6 +103,34 @@
                 android:textStyle="bold"
                 android:textColor="@color/primary"
                 android:fontFamily="sans-serif-medium" />
+
+            <!-- Pronunciation Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pronunciationButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/listen_pronunciation"
+                android:textSize="14sp"
+                app:icon="@android:drawable/ic_lock_silent_mode_off"
+                app:iconTint="@color/accent"
+                android:textColor="@color/accent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <!-- Phonetic Text -->
+            <TextView
+                android:id="@+id/phoneticText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="[hɛj]"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:textStyle="italic"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

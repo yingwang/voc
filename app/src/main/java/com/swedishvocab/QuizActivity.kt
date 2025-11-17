@@ -14,16 +14,20 @@ import com.google.android.material.button.MaterialButton
 import com.swedishvocab.data.QuizManager
 import com.swedishvocab.models.GameState
 import com.swedishvocab.models.Question
+import com.swedishvocab.utils.AudioPlayer
 
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var quizManager: QuizManager
     private lateinit var gameState: GameState
+    private lateinit var audioPlayer: AudioPlayer
 
     private lateinit var questionCounter: TextView
     private lateinit var scoreText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var swedishWord: TextView
+    private lateinit var phoneticText: TextView
+    private lateinit var pronunciationButton: MaterialButton
     private lateinit var feedbackText: TextView
     private lateinit var optionButtons: List<MaterialButton>
 
@@ -43,6 +47,8 @@ class QuizActivity : AppCompatActivity() {
         scoreText = findViewById(R.id.scoreText)
         progressBar = findViewById(R.id.progressBar)
         swedishWord = findViewById(R.id.swedishWord)
+        phoneticText = findViewById(R.id.phoneticText)
+        pronunciationButton = findViewById(R.id.pronunciationButton)
         feedbackText = findViewById(R.id.feedbackText)
 
         optionButtons = listOf(
@@ -53,11 +59,19 @@ class QuizActivity : AppCompatActivity() {
         )
 
         setupOptionClickListeners()
+        setupPronunciationButton()
     }
 
     private fun initializeQuiz() {
         quizManager = QuizManager(this)
         gameState = quizManager.generateQuiz(30)
+        audioPlayer = AudioPlayer()
+    }
+
+    private fun setupPronunciationButton() {
+        pronunciationButton.setOnClickListener {
+            playPronunciation()
+        }
     }
 
     private fun setupOptionClickListeners() {
@@ -91,12 +105,52 @@ class QuizActivity : AppCompatActivity() {
         progressBar.progress = gameState.progressPercentage
         swedishWord.text = question.swedishWord
 
+        // Show pronunciation button and phonetic if available
+        if (question.hasAudio()) {
+            pronunciationButton.visibility = View.VISIBLE
+            pronunciationButton.isEnabled = true
+        } else {
+            pronunciationButton.visibility = View.GONE
+        }
+
+        // Show phonetic transcription if available
+        if (!question.phonetic.isNullOrEmpty()) {
+            phoneticText.text = "[${question.phonetic}]"
+            phoneticText.visibility = View.VISIBLE
+        } else {
+            phoneticText.visibility = View.GONE
+        }
+
         // Set option texts
         question.options.forEachIndexed { index, option ->
             if (index < optionButtons.size) {
                 optionButtons[index].text = option
             }
         }
+    }
+
+    private fun playPronunciation() {
+        val question = gameState.currentQuestion ?: return
+        val audioUrl = question.audioUrl ?: return
+
+        pronunciationButton.text = getString(R.string.playing_audio)
+        pronunciationButton.isEnabled = false
+
+        audioPlayer.playFromUrl(
+            url = audioUrl,
+            onComplete = {
+                runOnUiThread {
+                    pronunciationButton.text = getString(R.string.listen_pronunciation)
+                    pronunciationButton.isEnabled = true
+                }
+            },
+            onError = {
+                runOnUiThread {
+                    pronunciationButton.text = getString(R.string.listen_pronunciation)
+                    pronunciationButton.isEnabled = true
+                }
+            }
+        )
     }
 
     private fun handleAnswerSelection(selectedAnswer: String) {
@@ -178,5 +232,10 @@ class QuizActivity : AppCompatActivity() {
     override fun onBackPressed() {
         // Prevent back button during quiz
         // User must complete the quiz
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        audioPlayer.release()
     }
 }

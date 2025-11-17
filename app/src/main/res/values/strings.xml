@@ -16,4 +16,7 @@
     <string name="incorrect">Incorrect. The answer was: %s</string>
     <string name="loading">Loading...</string>
     <string name="points_earned">+%d points</string>
+    <string name="listen_pronunciation">🔊 Listen</string>
+    <string name="playing_audio">Playing...</string>
+    <string name="vocabulary_info">%d words from Folkets Lexikon</string>
 </resources>

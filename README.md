@@ -1,14 +1,18 @@
 # Swedish Vocab - Learn Swedish Vocabulary
 
-A modern Android app designed to help you learn Swedish vocabulary through interactive quizzes.
+A modern Android app designed to help you learn Swedish vocabulary through interactive quizzes with native pronunciation.
 
 ## Features
 
-- **300+ Swedish Words & Phrases**: Curated dictionary covering greetings, numbers, colors, food, family, time, and more
-- **Quiz Mode**: 30 questions per game with multiple-choice answers
+- **36,000+ Swedish Words**: Complete Folkets Lexikon dictionary with comprehensive vocabulary
+- **Native Audio Pronunciation**: Stream Swedish pronunciation for 18,500+ words from Folkets Lexikon
+- **Phonetic Transcriptions**: See IPA pronunciation guides for proper learning
+- **Fully Randomized Quizzes**: Every question and answer set is dynamically generated - never the same quiz twice
+- **Multiple-Choice Quiz Mode**: 30 questions per game with 4 randomized answer options
+- **Smart Answer Generation**: Incorrect options are randomly selected from the entire vocabulary
 - **Points & High Scores**: Track your progress and beat your high score
-- **Modern UI**: Clean, light, and tech-inspired interface with Material Design
-- **Instant Feedback**: See correct answers immediately with visual feedback
+- **Modern Material Design UI**: Clean, light, and tech-inspired interface
+- **Instant Feedback**: See correct answers immediately with color-coded visual feedback
 - **Progress Tracking**: View your performance with percentage scores and encouraging messages
 
 ## Dictionary Categories
@@ -35,19 +39,35 @@ The app includes vocabulary from the following categories:
 
 1. Tap "Start Quiz" on the home screen
 2. Read the Swedish word or phrase displayed
-3. Select the correct English translation from 4 options
-4. Get instant feedback (green for correct, red for incorrect)
-5. Complete all 30 questions
-6. View your score and try to beat your high score!
+3. **Tap the 🔊 Listen button** to hear native Swedish pronunciation (when available)
+4. View the phonetic transcription to learn proper pronunciation
+5. Select the correct English translation from 4 randomized options
+6. Get instant feedback (green for correct, red for incorrect)
+7. Complete all 30 questions from randomly selected vocabulary
+8. View your score and try to beat your high score!
+
+## Randomization Features
+
+The app ensures maximum variety and learning effectiveness through comprehensive randomization:
+
+- **Question Selection**: 30 words are randomly selected from 36,000+ entries for each game
+- **Answer Options**: For each question, 3 incorrect answers are randomly chosen from the entire vocabulary
+- **Option Order**: All 4 answer choices (1 correct + 3 incorrect) are shuffled randomly
+- **No Hardcoded Questions**: Everything is dynamically generated - play infinite unique quizzes
+
+This means you'll never encounter the same quiz twice, ensuring continuous learning and variety!
 
 ## Technical Details
 
 - **Language**: Kotlin
 - **Min SDK**: API 24 (Android 7.0)
 - **Target SDK**: API 34 (Android 14)
-- **Architecture**: Modern Android with ViewBinding
+- **Architecture**: Modern Android with ViewBinding and MediaPlayer
 - **Data Storage**: SharedPreferences for score persistence
+- **Dictionary Source**: Folkets Lexikon (36,148 words)
 - **Dictionary Format**: JSON file in raw resources
+- **Audio Streaming**: MediaPlayer with internet audio streaming
+- **License**: CC-BY-SA 2.5 (Folkets Lexikon dictionary)
 
 ## Building the App
 

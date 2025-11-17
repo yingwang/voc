@@ -25,19 +25,23 @@ class QuizManager(context: Context) {
     }
 
     private fun generateQuestion(correctWord: Word, allWords: List<Word>): Question {
+        // Get 3 random incorrect options
         val incorrectOptions = allWords
             .filter { it.english != correctWord.english }
             .shuffled()
             .take(3)
             .map { it.english }
 
+        // Shuffle all 4 options (3 incorrect + 1 correct) for randomness
         val allOptions = (incorrectOptions + correctWord.english).shuffled()
 
         return Question(
             swedishWord = correctWord.swedish,
             correctAnswer = correctWord.english,
             options = allOptions,
-            category = correctWord.category
+            category = correctWord.category,
+            audioUrl = correctWord.audioUrl,
+            phonetic = correctWord.phonetic
         )
     }
 
