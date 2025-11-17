@@ -13,6 +13,7 @@ class AudioPlayer(private val context: Context) {
     private var isInitialized = false
     private var isPlaying = false
     private var soundEffectPlayer: MediaPlayer? = null
+    private var onInitializedListener: (() -> Unit)? = null
 
     init {
         textToSpeech = TextToSpeech(context) { status ->
@@ -28,11 +29,11 @@ class AudioPlayer(private val context: Context) {
         }
     }
 
-    fun setOnInitializedListener(listener: () -> Unit) {
+    fun setOnInitializedListener(listener: (() -> Unit)?) {
         onInitializedListener = listener
         // If already initialized, call immediately
         if (isInitialized) {
-            listener.invoke()
+            listener?.invoke()
         }
     }
 
