@@ -56,8 +56,12 @@ class PreferencesManager(context: Context) {
         val scores = getHighScores().toMutableList()
         scores.add(highScore)
 
-        // Sort by percentage descending, then by score descending
-        scores.sortWith(compareByDescending<HighScore> { it.percentage }.thenByDescending { it.score })
+        // Sort by percentage descending, then by score descending, then by timestamp descending (newer first)
+        scores.sortWith(
+            compareByDescending<HighScore> { it.percentage }
+                .thenByDescending { it.score }
+                .thenByDescending { it.timestamp }
+        )
 
         // Keep only top MAX_HIGH_SCORES
         val topScores = scores.take(MAX_HIGH_SCORES)

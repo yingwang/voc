@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity() {
             noScoresText.visibility = View.GONE
             highScoresList.visibility = View.VISIBLE
 
-            highScores.forEach { score ->
+            // Show only top 5 scores (handles old data that may have more)
+            highScores.take(5).forEach { score ->
                 val scoreView = TextView(this).apply {
                     text = getString(
                         R.string.score_entry,
