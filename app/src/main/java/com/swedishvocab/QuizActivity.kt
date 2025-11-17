@@ -53,6 +53,9 @@ class QuizActivity : AppCompatActivity() {
         pronunciationButton = findViewById(R.id.pronunciationButton)
         feedbackText = findViewById(R.id.feedbackText)
 
+        // Disable pronunciation button initially until TTS is ready
+        pronunciationButton.isEnabled = false
+
         optionButtons = listOf(
             findViewById(R.id.option1Button),
             findViewById(R.id.option2Button),
@@ -133,7 +136,7 @@ class QuizActivity : AppCompatActivity() {
 
         // Always show pronunciation button (TTS works for all words)
         pronunciationButton.visibility = View.VISIBLE
-        pronunciationButton.isEnabled = audioPlayer.isReady()
+        // Note: isEnabled is managed by initialization listener, don't override here
         pronunciationButton.text = getString(R.string.listen_pronunciation)
 
         // Show phonetic transcription if available
@@ -213,7 +216,7 @@ class QuizActivity : AppCompatActivity() {
             } else {
                 displayCurrentQuestion()
             }
-        }, 1000)
+        }, 1500)
     }
 
     private fun showFeedback(isCorrect: Boolean, question: Question, selectedAnswer: String) {
