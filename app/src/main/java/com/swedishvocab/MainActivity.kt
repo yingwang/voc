@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var dictionaryLoader: DictionaryLoader
     private lateinit var startQuizButton: MaterialButton
+    private lateinit var dictionaryButton: MaterialButton
     private lateinit var settingsButton: MaterialButton
     private lateinit var vocabularyInfoText: TextView
     private lateinit var currentSettingsText: TextView
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeViews() {
         startQuizButton = findViewById(R.id.startQuizButton)
+        dictionaryButton = findViewById(R.id.dictionaryButton)
         settingsButton = findViewById(R.id.settingsButton)
         vocabularyInfoText = findViewById(R.id.vocabularyInfoText)
         currentSettingsText = findViewById(R.id.currentSettingsText)
@@ -96,6 +98,10 @@ class MainActivity : AppCompatActivity() {
             startQuiz()
         }
 
+        dictionaryButton.setOnClickListener {
+            openDictionary()
+        }
+
         settingsButton.setOnClickListener {
             openSettings()
         }
@@ -103,6 +109,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun startQuiz() {
         val intent = Intent(this, QuizActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openDictionary() {
+        val intent = Intent(this, DictionaryActivity::class.java)
         startActivity(intent)
     }
 

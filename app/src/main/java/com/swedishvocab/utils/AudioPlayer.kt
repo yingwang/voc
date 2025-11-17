@@ -10,6 +10,7 @@ class AudioPlayer(context: Context) {
     private var textToSpeech: TextToSpeech? = null
     private var isInitialized = false
     private var isPlaying = false
+    private var onInitializedListener: (() -> Unit)? = null
 
     init {
         textToSpeech = TextToSpeech(context) { status ->
@@ -20,7 +21,16 @@ class AudioPlayer(context: Context) {
                     textToSpeech?.setLanguage(Locale("sv"))
                 }
                 isInitialized = true
+                onInitializedListener?.invoke()
             }
+        }
+    }
+
+    fun setOnInitializedListener(listener: () -> Unit) {
+        onInitializedListener = listener
+        // If already initialized, call immediately
+        if (isInitialized) {
+            listener.invoke()
         }
     }
 

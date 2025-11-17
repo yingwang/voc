@@ -37,6 +37,12 @@
             android:screenOrientation="portrait"
             android:label="@string/settings" />
 
+        <activity
+            android:name=".DictionaryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Swedish Dictionary" />
+
     </application>
 
 </manifest>
