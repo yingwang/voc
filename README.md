@@ -5,8 +5,8 @@ A modern Android app designed to help you learn Swedish vocabulary through inter
 ## Features
 
 - **36,000+ Swedish Words**: Complete Folkets Lexikon dictionary with comprehensive vocabulary
-- **Native Audio Pronunciation**: Stream Swedish pronunciation for 18,500+ words from Folkets Lexikon
-- **Phonetic Transcriptions**: See IPA pronunciation guides for proper learning
+- **Text-to-Speech Pronunciation**: Built-in Swedish TTS for **ALL 36,000+ words** - works offline!
+- **Phonetic Transcriptions**: See IPA pronunciation guides for proper learning (18,500+ words)
 - **Fully Randomized Quizzes**: Every question and answer set is dynamically generated - never the same quiz twice
 - **Multiple-Choice Quiz Mode**: 30 questions per game with 4 randomized answer options
 - **Smart Answer Generation**: Incorrect options are randomly selected from the entire vocabulary
@@ -14,6 +14,7 @@ A modern Android app designed to help you learn Swedish vocabulary through inter
 - **Modern Material Design UI**: Clean, light, and tech-inspired interface
 - **Instant Feedback**: See correct answers immediately with color-coded visual feedback
 - **Progress Tracking**: View your performance with percentage scores and encouraging messages
+- **Offline Support**: Pronunciation works offline (after Swedish TTS data is downloaded)
 
 ## Dictionary Categories
 
@@ -62,12 +63,13 @@ This means you'll never encounter the same quiz twice, ensuring continuous learn
 - **Language**: Kotlin
 - **Min SDK**: API 24 (Android 7.0)
 - **Target SDK**: API 34 (Android 14)
-- **Architecture**: Modern Android with ViewBinding and MediaPlayer
+- **Architecture**: Modern Android with ViewBinding and TextToSpeech
 - **Data Storage**: SharedPreferences for score persistence
 - **Dictionary Source**: Folkets Lexikon (36,148 words)
-- **Dictionary Format**: JSON file in raw resources
-- **Audio Streaming**: MediaPlayer with internet audio streaming
+- **Dictionary Format**: JSON file in raw resources (5.4 MB)
+- **Pronunciation**: Android TextToSpeech API with Swedish (sv-SE) locale
 - **License**: CC-BY-SA 2.5 (Folkets Lexikon dictionary)
+- **Offline Capability**: Works completely offline after Swedish TTS data is installed
 
 ## Building the App
 

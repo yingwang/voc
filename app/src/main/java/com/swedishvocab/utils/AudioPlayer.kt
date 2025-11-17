@@ -1,85 +1,77 @@
 package com.swedishvocab.utils
 
-import android.media.AudioAttributes
-import android.media.MediaPlayer
-import java.io.IOException
+import android.content.Context
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
+import java.util.Locale
 
-class AudioPlayer {
+class AudioPlayer(context: Context) {
 
-    private var mediaPlayer: MediaPlayer? = null
+    private var textToSpeech: TextToSpeech? = null
+    private var isInitialized = false
     private var isPlaying = false
 
-    fun playFromUrl(url: String, onComplete: (() -> Unit)? = null, onError: (() -> Unit)? = null) {
-        // Release any existing player
-        release()
-
-        try {
-            mediaPlayer = MediaPlayer().apply {
-                setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-                )
-
-                setDataSource(url)
-
-                setOnPreparedListener {
-                    start()
-                    this@AudioPlayer.isPlaying = true
+    init {
+        textToSpeech = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = textToSpeech?.setLanguage(Locale("sv", "SE"))
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    // Swedish not available, try generic Swedish
+                    textToSpeech?.setLanguage(Locale("sv"))
                 }
-
-                setOnCompletionListener {
-                    this@AudioPlayer.isPlaying = false
-                    onComplete?.invoke()
-                    this@AudioPlayer.release()
-                }
-
-                setOnErrorListener { _, what, extra ->
-                    this@AudioPlayer.isPlaying = false
-                    onError?.invoke()
-                    this@AudioPlayer.release()
-                    true
-                }
-
-                prepareAsync()
+                isInitialized = true
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            onError?.invoke()
-            this.release()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-            onError?.invoke()
-            this.release()
         }
+    }
+
+    fun speak(text: String, onComplete: (() -> Unit)? = null, onError: (() -> Unit)? = null) {
+        if (!isInitialized) {
+            onError?.invoke()
+            return
+        }
+
+        textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                isPlaying = true
+            }
+
+            override fun onDone(utteranceId: String?) {
+                isPlaying = false
+                onComplete?.invoke()
+            }
+
+            override fun onError(utteranceId: String?) {
+                isPlaying = false
+                onError?.invoke()
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun onError(utteranceId: String?, errorCode: Int) {
+                isPlaying = false
+                onError?.invoke()
+            }
+        })
+
+        val params = HashMap<String, String>()
+        params[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = "SWEDISH_WORD"
+
+        textToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, params)
     }
 
     fun stop() {
-        try {
-            mediaPlayer?.apply {
-                if (isPlaying()) {
-                    stop()
-                }
-            }
-            isPlaying = false
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        textToSpeech?.stop()
+        isPlaying = false
     }
 
     fun release() {
-        try {
-            mediaPlayer?.apply {
-                stop()
-                release()
-            }
-            mediaPlayer = null
-            isPlaying = false
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        textToSpeech?.stop()
+        textToSpeech?.shutdown()
+        textToSpeech = null
+        isPlaying = false
+        isInitialized = false
     }
 
     fun isCurrentlyPlaying(): Boolean = isPlaying
+
+    fun isReady(): Boolean = isInitialized
 }

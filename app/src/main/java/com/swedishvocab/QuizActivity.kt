@@ -65,7 +65,7 @@ class QuizActivity : AppCompatActivity() {
     private fun initializeQuiz() {
         quizManager = QuizManager(this)
         gameState = quizManager.generateQuiz(30)
-        audioPlayer = AudioPlayer()
+        audioPlayer = AudioPlayer(this)
     }
 
     private fun setupPronunciationButton() {
@@ -105,13 +105,10 @@ class QuizActivity : AppCompatActivity() {
         progressBar.progress = gameState.progressPercentage
         swedishWord.text = question.swedishWord
 
-        // Show pronunciation button and phonetic if available
-        if (question.hasAudio()) {
-            pronunciationButton.visibility = View.VISIBLE
-            pronunciationButton.isEnabled = true
-        } else {
-            pronunciationButton.visibility = View.GONE
-        }
+        // Always show pronunciation button (TTS works for all words)
+        pronunciationButton.visibility = View.VISIBLE
+        pronunciationButton.isEnabled = audioPlayer.isReady()
+        pronunciationButton.text = getString(R.string.listen_pronunciation)
 
         // Show phonetic transcription if available
         if (!question.phonetic.isNullOrEmpty()) {
@@ -131,13 +128,13 @@ class QuizActivity : AppCompatActivity() {
 
     private fun playPronunciation() {
         val question = gameState.currentQuestion ?: return
-        val audioUrl = question.audioUrl ?: return
+        val swedishText = question.swedishWord
 
         pronunciationButton.text = getString(R.string.playing_audio)
         pronunciationButton.isEnabled = false
 
-        audioPlayer.playFromUrl(
-            url = audioUrl,
+        audioPlayer.speak(
+            text = swedishText,
             onComplete = {
                 runOnUiThread {
                     pronunciationButton.text = getString(R.string.listen_pronunciation)
