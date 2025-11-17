@@ -1,15 +1,18 @@
 package com.swedishvocab.utils
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import com.swedishvocab.R
 import java.util.Locale
 
-class AudioPlayer(context: Context) {
+class AudioPlayer(private val context: Context) {
 
     private var textToSpeech: TextToSpeech? = null
     private var isInitialized = false
     private var isPlaying = false
+    private var soundEffectPlayer: MediaPlayer? = null
 
     init {
         textToSpeech = TextToSpeech(context) { status ->
@@ -69,9 +72,50 @@ class AudioPlayer(context: Context) {
         textToSpeech = null
         isPlaying = false
         isInitialized = false
+        releaseSoundEffect()
     }
 
     fun isCurrentlyPlaying(): Boolean = isPlaying
 
     fun isReady(): Boolean = isInitialized
+
+    /**
+     * Play a sound effect for correct answer
+     */
+    fun playCorrectSound(onComplete: (() -> Unit)? = null) {
+        playSoundEffect(R.raw.sound_correct, onComplete)
+    }
+
+    /**
+     * Play a sound effect for incorrect answer
+     */
+    fun playIncorrectSound(onComplete: (() -> Unit)? = null) {
+        playSoundEffect(R.raw.sound_incorrect, onComplete)
+    }
+
+    private fun playSoundEffect(resourceId: Int, onComplete: (() -> Unit)? = null) {
+        try {
+            // Release previous sound effect if any
+            releaseSoundEffect()
+
+            soundEffectPlayer = MediaPlayer.create(context, resourceId)
+            soundEffectPlayer?.setOnCompletionListener {
+                releaseSoundEffect()
+                onComplete?.invoke()
+            }
+            soundEffectPlayer?.setOnErrorListener { _, _, _ ->
+                releaseSoundEffect()
+                false
+            }
+            soundEffectPlayer?.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            releaseSoundEffect()
+        }
+    }
+
+    private fun releaseSoundEffect() {
+        soundEffectPlayer?.release()
+        soundEffectPlayer = null
+    }
 }

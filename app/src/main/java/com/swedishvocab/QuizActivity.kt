@@ -133,6 +133,14 @@ class QuizActivity : AppCompatActivity() {
                 optionButtons[index].text = option
             }
         }
+
+        // Auto-play pronunciation when question loads
+        if (audioPlayer.isReady()) {
+            // Delay slightly to avoid overwhelming the user
+            Handler(Looper.getMainLooper()).postDelayed({
+                playPronunciation()
+            }, 300)
+        }
     }
 
     private fun playPronunciation() {
@@ -173,6 +181,13 @@ class QuizActivity : AppCompatActivity() {
 
         // Update button colors
         updateButtonColors(currentQuestion, selectedAnswer)
+
+        // Play feedback sound
+        if (isCorrect) {
+            audioPlayer.playCorrectSound()
+        } else {
+            audioPlayer.playIncorrectSound()
+        }
 
         // Move to next question after delay
         Handler(Looper.getMainLooper()).postDelayed({
