@@ -130,6 +130,7 @@ class QuizActivity : AppCompatActivity() {
 
         // Always show pronunciation button (TTS works for all words)
         pronunciationButton.visibility = View.VISIBLE
+        // Button will be enabled by the onInitialized listener
         pronunciationButton.isEnabled = audioPlayer.isReady()
         pronunciationButton.text = getString(R.string.listen_pronunciation)
 
