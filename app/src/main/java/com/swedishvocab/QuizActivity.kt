@@ -55,6 +55,10 @@ class QuizActivity : AppCompatActivity() {
 
         // Disable pronunciation button initially until TTS is ready
         pronunciationButton.isEnabled = false
+        // Set grey icon tint when disabled
+        pronunciationButton.iconTint = android.content.res.ColorStateList.valueOf(
+            ContextCompat.getColor(this, android.R.color.darker_gray)
+        )
 
         optionButtons = listOf(
             findViewById(R.id.option1Button),
@@ -81,10 +85,12 @@ class QuizActivity : AppCompatActivity() {
         // Set up listener to auto-play first question when TTS is ready
         audioPlayer.setOnInitializedListener {
             // Enable pronunciation button when TTS is ready
-            pronunciationButton.post {
+            runOnUiThread {
                 pronunciationButton.isEnabled = true
-                pronunciationButton.refreshDrawableState()  // Force icon tint to update
-                pronunciationButton.invalidate()
+                // Set blue icon tint when enabled
+                pronunciationButton.iconTint = android.content.res.ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.accent)
+                )
 
                 // Only auto-play if we're still on the first question
                 if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
