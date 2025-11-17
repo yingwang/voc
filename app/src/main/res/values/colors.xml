@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary brand colors -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#00BCD4</color>
+
+    <!-- Background colors -->
+    <color name="background_light">#F5F5F5</color>
+    <color name="surface_light">#FFFFFF</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Status colors -->
+    <color name="correct">#4CAF50</color>
+    <color name="incorrect">#F44336</color>
+    <color name="selected">#2196F3</color>
+
+    <!-- Button colors -->
+    <color name="button_enabled">#2196F3</color>
+    <color name="button_disabled">#BDBDBD</color>
+
+    <!-- Dark theme colors -->
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#B0B0B0</color>
+
+    <!-- Launcher icon -->
+    <color name="ic_launcher_background">#2196F3</color>
+</resources>
