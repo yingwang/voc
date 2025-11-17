@@ -1,6 +1,7 @@
 package com.swedishvocab.data
 
 import android.content.Context
+import com.swedishvocab.models.DifficultyLevel
 import com.swedishvocab.models.GameState
 import com.swedishvocab.models.Question
 import com.swedishvocab.models.Word
@@ -9,16 +10,25 @@ class QuizManager(context: Context) {
 
     private val dictionaryLoader = DictionaryLoader(context)
 
-    fun generateQuiz(questionCount: Int = 30): GameState {
+    fun generateQuiz(questionCount: Int = 30, difficulty: DifficultyLevel = DifficultyLevel.ALL): GameState {
         val allWords = dictionaryLoader.getAllWords()
 
         if (allWords.size < 4) {
             throw IllegalStateException("Dictionary must have at least 4 words")
         }
 
-        val selectedWords = allWords.shuffled().take(questionCount)
+        // Filter words based on difficulty (take first N words which are sorted by frequency)
+        val filteredWords = when (difficulty) {
+            DifficultyLevel.BEGINNER -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
+            DifficultyLevel.INTERMEDIATE -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
+            DifficultyLevel.ADVANCED -> allWords.take(difficulty.maxWords.coerceAtMost(allWords.size))
+            DifficultyLevel.ALL -> allWords
+        }
+
+        val selectedWords = filteredWords.shuffled().take(questionCount)
         val questions = selectedWords.map { word ->
-            generateQuestion(word, allWords)
+            // Use filtered words for generating incorrect options too
+            generateQuestion(word, filteredWords)
         }
 
         return GameState(questions = questions)

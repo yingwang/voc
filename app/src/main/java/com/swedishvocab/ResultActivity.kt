@@ -57,16 +57,21 @@ class ResultActivity : AppCompatActivity() {
         finalScore.text = "$score / $total"
 
         // Calculate and display percentage
-        val percentage = (score * 100) / total
+        val percentage = if (total > 0) (score * 100) / total else 0
         percentageText.text = "$percentage%"
 
-        // Update high score
+        // Add to high scores list
+        val difficulty = preferencesManager.difficulty
+        preferencesManager.addHighScore(score, total, difficulty)
+
+        // Update old high score (for backward compatibility)
         val isNewHighScore = preferencesManager.updateScore(score)
         if (isNewHighScore) {
             highScoreBadge.visibility = View.VISIBLE
             celebrationIcon.text = "🏆"
         }
 
+        // Show high score in appropriate format
         highScoreText.text = getString(R.string.high_score, preferencesManager.highScore)
 
         // Set performance message

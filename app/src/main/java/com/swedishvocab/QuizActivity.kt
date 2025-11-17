@@ -15,12 +15,14 @@ import com.swedishvocab.data.QuizManager
 import com.swedishvocab.models.GameState
 import com.swedishvocab.models.Question
 import com.swedishvocab.utils.AudioPlayer
+import com.swedishvocab.utils.PreferencesManager
 
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var quizManager: QuizManager
     private lateinit var gameState: GameState
     private lateinit var audioPlayer: AudioPlayer
+    private lateinit var preferencesManager: PreferencesManager
 
     private lateinit var questionCounter: TextView
     private lateinit var scoreText: TextView
@@ -63,8 +65,14 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun initializeQuiz() {
+        preferencesManager = PreferencesManager(this)
         quizManager = QuizManager(this)
-        gameState = quizManager.generateQuiz(30)
+
+        // Get settings
+        val questionCount = preferencesManager.questionCount
+        val difficulty = preferencesManager.difficulty
+
+        gameState = quizManager.generateQuiz(questionCount, difficulty)
         audioPlayer = AudioPlayer(this)
     }
 
@@ -98,8 +106,9 @@ class QuizActivity : AppCompatActivity() {
 
         // Update UI
         questionCounter.text = getString(
-            R.string.question_format,
-            gameState.currentQuestionIndex + 1
+            R.string.question_format_dynamic,
+            gameState.currentQuestionIndex + 1,
+            gameState.totalQuestions
         )
         scoreText.text = getString(R.string.score_format, gameState.score)
         progressBar.progress = gameState.progressPercentage

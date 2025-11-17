@@ -72,24 +72,26 @@
                 android:fontFamily="sans-serif"
                 android:layout_gravity="center" />
 
+            <!-- Current Settings Info -->
             <TextView
-                android:id="@+id/highScoreText"
+                android:id="@+id/currentSettingsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                tools:text="High Score: 25"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/accent"
+                tools:text="30 questions • All levels"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
                 android:layout_gravity="center" />
 
-            <TextView
+            <!-- Settings Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settingsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="30 questions per game"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
+                android:text="@string/settings"
+                android:textSize="12sp"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_gravity="center" />
 
             <TextView
@@ -123,20 +125,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- High Scores Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/highScoresCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/startQuizButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/high_scores"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:id="@+id/highScoresList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!-- High scores will be added here dynamically -->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/noScoresText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_scores_yet"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:textStyle="italic"
+                android:visibility="gone" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <!-- Info Text -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
         android:text="Select the correct English translation for each Swedish word"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textColor="@color/text_secondary"
         android:fontFamily="sans-serif"
+        app:layout_constraintTop_toBottomOf="@id/highScoresCard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
