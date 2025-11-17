@@ -26,19 +26,19 @@ class AudioPlayer {
 
                 setOnPreparedListener {
                     start()
-                    isPlaying = true
+                    this@AudioPlayer.isPlaying = true
                 }
 
                 setOnCompletionListener {
-                    isPlaying = false
+                    this@AudioPlayer.isPlaying = false
                     onComplete?.invoke()
-                    release()
+                    this@AudioPlayer.release()
                 }
 
                 setOnErrorListener { _, what, extra ->
-                    isPlaying = false
+                    this@AudioPlayer.isPlaying = false
                     onError?.invoke()
-                    release()
+                    this@AudioPlayer.release()
                     true
                 }
 
@@ -47,11 +47,11 @@ class AudioPlayer {
         } catch (e: IOException) {
             e.printStackTrace()
             onError?.invoke()
-            release()
+            this.release()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             onError?.invoke()
-            release()
+            this.release()
         }
     }
 
