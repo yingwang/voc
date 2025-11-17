@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             noScoresText.visibility = View.GONE
             highScoresList.visibility = View.VISIBLE
 
-            highScores.take(5).forEach { score ->
+            highScores.forEach { score ->
                 val scoreView = TextView(this).apply {
                     text = getString(
                         R.string.score_entry,

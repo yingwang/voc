@@ -19,7 +19,7 @@ class PreferencesManager(context: Context) {
         private const val KEY_HIGH_SCORES_LIST = "high_scores_list"
         private const val KEY_DIFFICULTY = "difficulty"
         private const val KEY_QUESTION_COUNT = "question_count"
-        private const val MAX_HIGH_SCORES = 10
+        private const val MAX_HIGH_SCORES = 5
     }
 
     var highScore: Int
