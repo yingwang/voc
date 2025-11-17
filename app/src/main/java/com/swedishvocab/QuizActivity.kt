@@ -74,6 +74,20 @@ class QuizActivity : AppCompatActivity() {
 
         gameState = quizManager.generateQuiz(questionCount, difficulty)
         audioPlayer = AudioPlayer(this)
+
+        // Set up listener to auto-play first question when TTS is ready
+        audioPlayer.setOnInitializedListener {
+            // Only auto-play if we're still on the first question
+            if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
+                runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        if (gameState.currentQuestionIndex == 0 && !isAnswerSelected) {
+                            playPronunciation()
+                        }
+                    }, 300)
+                }
+            }
+        }
     }
 
     private fun setupPronunciationButton() {
